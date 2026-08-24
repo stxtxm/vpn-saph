@@ -56,7 +56,23 @@ Messages typiques :
 - `NO_PROPOSAL_CHOSEN` en Quick Mode → P2 : strongswan utilisé ou pfs=no manquant
 - `Impossible de trouver les binaires kl2tpd ou xl2tpd` → P4 : xl2tpd absent
 
+## Reconstruction du libreswan (DH2)
+
+Si une mise à jour (`dnf upgrade libreswan` ou équivalent apt) écrase le
+libreswan recompilé — ou après une réinstallation — relancez :
+
+```bash
+./build-libreswan-dh2.sh            # recompile uniquement si nécessaire
+./build-libreswan-dh2.sh --check    # vérifie l'état actuel seulement
+./build-libreswan-dh2.sh --force    # force la recompilation
+```
+
+Fonctionne sur Fedora et Debian/Mint/Ubuntu : installe les dépendances,
+télécharge les sources officielles, compile avec `USE_DH2=true`, installe,
+réapplique `ikev1-policy=accept` (si libreswan ≥ 5) et redémarre les services.
+
 ## Contenu
 
 - `connect-vpn-meraki-fedora.sh` — Fedora 44+ (xl2tpd et libreswan-DH2 compilés si besoin)
 - `connect-vpn-meraki-debian.sh` — Debian / Mint / Ubuntu (paquets distro quand possible)
+- `build-libreswan-dh2.sh` — reconstruction autonome du libreswan avec support DH2
